@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+var errors = {}
 
 app.get('/', function (req, res) {
   res.send('Hello World!');
@@ -7,10 +8,11 @@ app.get('/', function (req, res) {
 
 app.post('/error', function(req, res) {
     res.send('Got a POST request');
+    errors[req.params.id] = req.params.content
 });
 
-app.get('/error/:num', function(req, res) {
-    res.send('Got a GET request');
+app.get('/error', function(req, res) {
+    res.json(errors);
 });
 
 var server = app.listen(80, function () {
