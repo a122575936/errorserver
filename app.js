@@ -1,17 +1,27 @@
 var express = require('express');
+var bodyParser = require('body-parser');
 var app = express();
-var errors = {}
+var errors = {};
+
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json())
 
 app.get('/', function (req, res) {
-  res.send('Hello World!');
+    res.send('Hello World!');
 });
 
 app.post('/error', function(req, res) {
+    //console.log('print params ', req.params)
+    //console.log('print body ', req.body)
+    //console.log('print query ', req.query)
+    errors[req.body.id] = req.body.content
     res.send('Got a POST request');
-    errors[req.params.id] = req.params.content
 });
 
 app.get('/error', function(req, res) {
+    //console.log('print params ', req.params)
+    //console.log('print body ', req.body)
+    //console.log('print query ', req.query)
     res.json(errors);
 });
 
